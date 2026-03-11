@@ -12,7 +12,7 @@ int main(int argc, char const *argv[])
 
     imc = peso / (altura * altura);
 
-    printf("%.2f", imc);
+    // printf("%.2f", imc);
 
     return 0;
 }
