@@ -1,0 +1,12 @@
+Algoritmo é uma sequência de passos organizados que tem como objetivo realizar alguma ação/atividade.
+Importante mencionar que como sequência, quero dizer que não só os passos são fundamentais como também a ordem em que estão dispostos.
+Um exemplo clássico de algoritmo é uma receita de bolo. Toda receita é composta pelos ingredientes que se deve utilizar, assim como o modo de preparo. Esse modo
+inclui um passo a passo ordenado que necessita ser seguido para que o objetivo final, bolo pronto, seja alcançado. Caso o usuário troque ou não realize alguma das
+etapas necessárias, não há garantia alguma de que o bolo sairá "perfeito" como proposto pela receita.
+Podemos classificar o algoritmo de diversas formas, quando consideramos os principais tipos relacionados às estruturas temos:
+  1. Sequenciais: São algoritmos baseados em ordenação linear dos passos, ou seja, um passo após o outro até o fim do código.
+  2. Condicionais: São algoritmos que se utilizam de decisões baseados em comparações de valores para decidir qual caminho seguir.
+  3. Repetição: São algoritmos que possuem estruturas que se repetem enquanto determinadas condições não são alcançadas.
+Quando se inicia o estudo de programação é comum utilizar uma tecnica chamada de Pseudocódigo, que é uma forma de programar algoritmos numa linguagem mais natural,
+utilizando da própria língua nativa do usuário, sendo português ou inglês, por exemplo. Isso permite que o aluno consiga se familirizar com o formato de como usar
+a lógica na construção dos códigos sem necessariamente aprender uma linguagem específica de programação, como C ou Javascript.
