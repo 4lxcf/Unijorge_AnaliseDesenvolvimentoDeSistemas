@@ -1,7 +1,0 @@
-a) No fluxograma apresentado, o usuário deve digitar duas notas no sistema. O programa então calcula a média dessas notas e salva numa variável chamada media. Por
-fim, se o valor da media for maior ou igual a 5, mostra na tela APROVADO e caso seja menor que 5, mostra na tela REPROVADO.
-
-b) VARIAVEIS DE ENTRADA: nota1 e nota2 | VARIAVEIS DE SAÍDA: não tem, afinal a unica saída para o usuário é se ele foi aprovado ou não.
-
-c) A lógica de decisão utilizada foi a comparação se o valor guardado em media é maior ou igual a 5 ou não. Caso fosse verdade, deveria ser impresso APROVADO. Caso
-fosse falso, deveria ser impresso REPROVADO.
