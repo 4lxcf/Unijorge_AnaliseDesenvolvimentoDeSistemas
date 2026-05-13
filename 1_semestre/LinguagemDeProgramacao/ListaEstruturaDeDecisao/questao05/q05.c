@@ -13,7 +13,61 @@ Média de Aproveitamento - Conceito
 O progama deve escrever o número do aluno, suas notas, a média dos exercícios, a
 média de aproveitamento, o conceito correspondente e a mensagem: APROVADO se
 o conceito for A,B ou C e REPROVADO se o conceito for D ou E.
-Construa um algoritmo que, tendo como dados de entrada dois pontos
-quaisquer no plano, P(x1,y1) e P(x2,y2), escreva a distância entre eles. A
-fórmula que efetua tal cálculo é: d= raiz quadrada de (x2-x1)² + (y2-y1)².
 */
+
+#include <stdio.h>
+
+int main(){
+    int id;
+    float n1, n2, n3, mE, mA;
+    char conceito;
+
+    printf("Digite o numero de identificacao do aluno:\n");
+    scanf("%d", &id);
+    printf("Digite a primeira nota do aluno:\n");
+    scanf("%f", &n1);
+    printf("Digite a segunda nota do aluno:\n");
+    scanf("%f", &n2);
+    printf("Digite a terceira nota do aluno:\n");
+    scanf("%f", &n3);
+    printf("Digite a media dos exercicios do aluno:\n");
+    scanf("%f", &mE);
+
+    mA = (n1 + n2 * 2. + n3 * 3. + mE) / 7.;
+
+    if (mA > 10. || mA < 0.)
+    {
+        printf("Valor invalido. Favor verificar os valores inseridos.\n");
+        return 1;
+    }
+    
+    if (mA >= 9.)
+    {
+        conceito = 'A';
+    } else if (mA >= 7.5)
+    {
+        conceito = 'B';
+    } else if (mA >= 6.)
+    {
+        conceito = 'C';
+    } else if (mA >= 4.)
+    {
+        conceito = 'D';
+    } else {
+        conceito = 'E';
+    }
+
+    printf("\nID do aluno: %d\n", id);    
+    printf("Notas das Avaliacoes: A1=%.1f | A2=%.1f | A3=%.1f\n", n1, n2, n3);      
+    printf("Media dos Exercicios: %.1f\n", mE);    
+    printf("Media de Aproveitamento: %.1f\n", mA);    
+    printf("Conceito: %c\n", conceito);   
+    if (conceito == 'A' || conceito == 'B' || conceito == 'C')
+    {
+        printf("Aluno Aprovado.\n");
+    } else {
+        printf("Aluno Reprovado.\n");
+    }
+     
+    return 0;
+}
