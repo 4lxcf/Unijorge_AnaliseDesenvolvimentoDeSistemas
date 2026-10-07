@@ -1,7 +1,9 @@
+-- Cria e seleciona o banco de dados da loja.
 CREATE DATABASE IF NOT EXISTS ecommerce_loja;
 
 USE ecommerce_loja;
 
+-- Endereços e dados dos clientes.
 CREATE TABLE IF NOT EXISTS tbEndereco (
     CEP varchar(12) primary key,
     rua varchar(100) not null,
@@ -34,6 +36,7 @@ CREATE TABLE IF NOT EXISTS tbEnderecoCliente (
     on delete restrict
 );
 
+-- Categorias, subcategorias e produtos do catálogo.
 CREATE TABLE IF NOT EXISTS tbCategoria (
     id_categoria int auto_increment primary key,
     nome varchar(150) not null unique
@@ -75,6 +78,7 @@ CREATE TABLE IF NOT EXISTS tbEstoque (
     on delete restrict
 );
 
+-- Carrinhos e produtos adicionados pelos clientes.
 CREATE TABLE IF NOT EXISTS tbCarrinho (
     id_carrinho int auto_increment primary key,
     cpf varchar(14) not null,
@@ -101,6 +105,7 @@ CREATE TABLE IF NOT EXISTS tbItensCarrinho (
     on delete restrict
 );
 
+-- Pedidos, itens, pagamentos e entregas.
 CREATE TABLE IF NOT EXISTS tbPedido (
     id_pedido int auto_increment primary key,
     id_carrinho int not null unique,
@@ -179,6 +184,7 @@ CREATE TABLE IF NOT EXISTS tbEntrega (
 );
 
 DELIMITER $$
+-- Impede vendas com quantidade inválida ou estoque insuficiente.
 CREATE TRIGGER verificar_estoque_pedido
 BEFORE INSERT ON tbItemPedido
 FOR EACH ROW
@@ -196,6 +202,7 @@ BEGIN
     END IF;
 END $$
 
+-- Baixa do estoque após a inclusão de um item no pedido.
 CREATE TRIGGER diminuir_estoque_venda
 AFTER INSERT ON tbItemPedido
 FOR EACH ROW
@@ -205,6 +212,7 @@ BEGIN
     WHERE id_produto = NEW.id_produto;
 END $$
 
+-- Atualiza o total do carrinho quando um item é adicionado.
 CREATE TRIGGER atualizar_total_carrinho
 AFTER INSERT ON tbItensCarrinho
 FOR EACH ROW
@@ -221,6 +229,7 @@ BEGIN
 END $$
 DELIMITER ;
 
+-- Dados de exemplo: endereços e clientes.
 INSERT INTO tbEndereco (CEP, rua, bairro, cidade, estado)
 VALUES
 ('40000001', 'Rua das Flores', 'Centro', 'Salvador', 'BA'),
@@ -247,6 +256,7 @@ VALUES
 ('44444444444', '40000004', '404', 'Apto 302'),
 ('55555555555', '40000005', '505', NULL);
 
+-- Dados de exemplo: catálogo e estoque.
 INSERT INTO tbCategoria (nome)
 VALUES
 ('Informática'),
@@ -286,6 +296,7 @@ VALUES
 (7, 12, 5),
 (8, 25, 8);
 
+-- Dados de exemplo: carrinhos e seus itens.
 INSERT INTO tbCarrinho (cpf)
 VALUES
 ('11111111111'),
@@ -302,6 +313,7 @@ VALUES
 (3, 6, 1),
 (4, 8, 1);
 
+-- Dados de exemplo: pedidos, itens, pagamentos e entregas.
 INSERT INTO tbPedido (id_carrinho, dataPedido, valorTotVenda, cpf, desconto, statusPedido)
 VALUES
 (1, '2026-09-25', 3649.80, '11111111111', 50.00, 'Entregue'),
@@ -341,6 +353,7 @@ VALUES
 (3, 3, 'BR555666777', 'Enviado', '2026-09-29', '2026-10-03', NULL, 30.00),
 (4, 4, 'BR111222333', 'Saiu para entrega', '2026-09-30', '2026-10-02', NULL, 15.00);
 
+-- View com o lucro bruto por produto.
 CREATE OR REPLACE VIEW vwLucroProduto AS
 SELECT
     descricao,
@@ -349,6 +362,7 @@ SELECT
     valorVenda - valorCusto AS lucro
 FROM tbProduto;
 
+-- Consulta os registros das tabelas para conferência.
 SELECT * FROM tbEndereco;
 SELECT * FROM tbCliente ORDER BY nome;
 SELECT * FROM tbEnderecoCliente;
@@ -363,11 +377,13 @@ SELECT * FROM tbItemPedido;
 SELECT * FROM tbPagamento;
 SELECT * FROM tbEntrega;
 
+-- Filtra produtos de marcas selecionadas.
 SELECT descricao, marca, valorVenda
 FROM tbProduto
 WHERE marca IN ('Logitech', 'Samsung')
 ORDER BY descricao;
 
+-- Exibe cada produto com sua subcategoria e categoria.
 SELECT
     p.descricao AS produto,
     s.nome AS subcategoria,
@@ -376,6 +392,7 @@ FROM tbProduto AS p
 INNER JOIN tbSubcategoria AS s ON p.id_subcategoria = s.id_subcategoria
 INNER JOIN tbCategoria AS c ON s.id_categoria = c.id_categoria;
 
+-- Lista os pedidos e seus totais após desconto.
 SELECT
     c.nome,
     c.CPF,
@@ -386,6 +403,7 @@ FROM tbCliente AS c
 INNER JOIN tbPedido AS p ON c.CPF = p.CPF
 ORDER BY p.dataPedido;
 
+-- Conta clientes por cidade e estado.
 SELECT
     e.cidade,
     e.estado,
@@ -395,4 +413,5 @@ INNER JOIN tbEndereco AS e ON ec.CEP = e.CEP
 GROUP BY e.cidade, e.estado
 ORDER BY e.estado, e.cidade;
 
+-- Consulta os lucros calculados pela view.
 SELECT * FROM vwLucroProduto ORDER BY descricao;
