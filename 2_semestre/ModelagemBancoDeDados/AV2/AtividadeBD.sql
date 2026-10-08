@@ -253,8 +253,8 @@ VALUES
 ('11111111111', '40000001', '101', 'Apto 201'),
 ('22222222222', '40000002', '202', 'Casa'),
 ('33333333333', '40000003', '303', 'Apto 501'),
-('44444444444', '40000004', '404', 'Apto 302'),
-('55555555555', '40000005', '505', NULL);
+('44444444444', '40000006', '404', 'Apto 302'),
+('55555555555', '40000007', '505', NULL);
 
 -- Dados de exemplo: catálogo e estoque.
 INSERT INTO tbCategoria (nome)
@@ -360,7 +360,7 @@ SELECT
     valorCusto,
     valorVenda,
     valorVenda - valorCusto AS lucro
-FROM tbProduto;
+FROM tbProduto ORDER BY lucro DESC;
 
 -- Consulta os registros das tabelas para conferência.
 SELECT * FROM tbEndereco;
@@ -381,7 +381,7 @@ SELECT * FROM tbEntrega;
 SELECT descricao, marca, valorVenda
 FROM tbProduto
 WHERE marca IN ('Logitech', 'Samsung')
-ORDER BY descricao;
+ORDER BY marca;
 
 -- Exibe cada produto com sua subcategoria e categoria.
 SELECT
