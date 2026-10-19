@@ -15,10 +15,10 @@ Principais códigos ANSI de cores para o terminal:
 - Ciano: \033[1;36m
 */
 
-int op1;
-int op2;
+int op1, op2, lista[5];
 
 void cor(){
+    system("cls");
     printf("********************************\n");
     printf("*  0 - RESET                   *\n");
     printf("*  1 - VERMELHO                *\n");
@@ -30,7 +30,6 @@ void cor(){
     printf("********************************\n");
     printf("ESCOLHA A COR: ");
     scanf("%d", &op2);
-    system("cls");
     switch(op2){
         case 0:
             printf("\033[0m");
@@ -59,6 +58,7 @@ void cor(){
 }
 
 void menu() {
+    system("cls");
     printf("********************************\n");
     printf("*  MENU PRINCIPAL              *\n");
     printf("********************************\n");
@@ -68,11 +68,11 @@ void menu() {
     printf("*  4 - ORGANIZAR CRESCENTE     *\n");
     printf("*  5 - ORGANIZAR DECRESCENTE   *\n");
     printf("*  6 - EXCLUIR                 *\n");
-    printf("*  7 - ALTERAR COR             *\n");
-    printf("*  8 - FINALIZAR               *\n");
+    printf("*  7 - IMPRIMIR                *\n");
+    printf("*  8 - ALTERAR COR             *\n");
+    printf("*  9 - FINALIZAR               *\n");
     printf("********************************\n");
     printf("DIGITE A OPÇÃO DESEJADA: ");
-
 }
 
 void main(){
@@ -82,16 +82,29 @@ void main(){
         scanf("%d", &op1);
         system("cls");
         switch(op1){
-            case 1:   
+            case 1:
+                for(int i = 0; i < 5; i++){
+                    system("cls");
+                    printf("Digite o %dº número: ", i + 1);
+                    scanf("%d", &lista[i]);
+                }
+                break;
             case 2:
             case 3:  
             case 4:  
             case 5:  
             case 6:   
             case 7:
-                cor();
+                printf("Lista de números:\n");
+                for(int i = 0; i < 5; i++){
+                    printf("Número %d: %d\n", i + 1, lista[i]);
+                }
+                sleep(3);
                 break;
             case 8:
+                cor();
+                break;
+            case 9:
                 printf("FINALIZANDO...\n");
                 break;
             default:
@@ -99,5 +112,5 @@ void main(){
                 sleep(3);
                 system("cls");
         }
-    }while(op1 != 8);
+    }while(op1 != 9);
 }
