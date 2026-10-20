@@ -18,29 +18,26 @@ Principais códigos ANSI de cores para o terminal:
 
 int op1, op2, lista[5], qtdCad, cad = 0;
 _Bool found = false;
+char cadNum;
 
 void cadastrar(){
     for(int i = 0; i < 5; i++){
         lista[i] = 0;
     }
 
-    printf("Quantos números deseja cadastrar (mín. 1 | máx. 5):\n");
-    scanf("%d", &qtdCad);
-    
-    if(qtdCad < 1){
-        printf("Quantidade mínima de números é 1. Serão cadastrados apenas o primeiro número.\n");
-        qtdCad = 1;
-    }
-    if(qtdCad > 5){
-        printf("Quantidade máxima de números é 5. Serão cadastrados apenas os primeiros 5 números.\n");
-        qtdCad = 5;
-    }
-
-    for(int i = 0; i < qtdCad && i < 5; i++){
+    do{
         system("cls");
-        printf("Cadastre o %dº número: ", i + 1);
-        scanf("%d", &lista[i]);
-    }
+        printf("Cadastre o %dº número: ", qtdCad + 1);
+        scanf("%d", &lista[qtdCad]);
+        qtdCad ++;
+        if(qtdCad >=5){
+            printf("Limite de cadastro atingido!\n");
+            sleep(3);
+            break;
+        }
+        printf("Deseja cadastrar outro número? (S/N): ");
+        scanf(" %c", &cadNum);
+    }while(qtdCad < 5 && tolower(cadNum) == 's');
 }
 
 void consultar(int lista[]){
