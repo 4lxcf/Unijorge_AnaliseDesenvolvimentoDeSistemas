@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <unistd.h>
 #include <locale.h>
 #include <ctype.h>
@@ -15,9 +16,70 @@ Principais códigos ANSI de cores para o terminal:
 - Ciano: \033[1;36m
 */
 
-int op1, op2, lista[5];
+int op1, op2, lista[5], qtdCad, cad = 0;
+_Bool found = false;
 
-void cor(){
+void cadastrar(){
+    for(int i = 0; i < 5; i++){
+        lista[i] = 0;
+    }
+
+    printf("Quantos números deseja cadastrar (mín. 1 | máx. 5):\n");
+    scanf("%d", &qtdCad);
+    
+    if(qtdCad < 1){
+        printf("Quantidade mínima de números é 1. Serão cadastrados apenas o primeiro número.\n");
+        qtdCad = 1;
+    }
+    if(qtdCad > 5){
+        printf("Quantidade máxima de números é 5. Serão cadastrados apenas os primeiros 5 números.\n");
+        qtdCad = 5;
+    }
+
+    for(int i = 0; i < qtdCad && i < 5; i++){
+        system("cls");
+        printf("Cadastre o %dº número: ", i + 1);
+        scanf("%d", &lista[i]);
+    }
+}
+
+void consultar(int lista[]){
+    op2 = 0;
+    system("cls");
+    printf("Digite o número que deseja consultar: ");
+    scanf("%d", &op2);
+    found = false;
+    for(int i = 0; i < 5; i++){
+        if(lista[i] == op2){
+            printf("Número encontrado na posição %d!\n", i + 1);
+            found = true;
+            break;
+        }
+    }
+    if(!found){
+        printf("Número não encontrado!\n");
+    }
+    sleep(3);
+}
+
+void alterar(){}
+
+void organizarCrescente(){}
+
+void organizarDecrescente(){}
+
+void excluir(){}
+
+void imprimir(){
+    printf("Lista de números:\n");
+    for(int i = 0; i < 5; i++){
+        printf("Número %d: %d\n", i + 1, lista[i]);
+    }
+    sleep(5);
+}
+
+void alterarCor(){
+    op2 = 0;
     system("cls");
     printf("********************************\n");
     printf("*  0 - RESET                   *\n");
@@ -83,26 +145,28 @@ void main(){
         system("cls");
         switch(op1){
             case 1:
-                for(int i = 0; i < 5; i++){
-                    system("cls");
-                    printf("Digite o %dº número: ", i + 1);
-                    scanf("%d", &lista[i]);
-                }
+                cadastrar();
                 break;
             case 2:
-            case 3:  
-            case 4:  
-            case 5:  
-            case 6:   
+                consultar(lista);
+                break;
+            case 3:
+                alterar();
+                break;
+            case 4:
+                organizarCrescente();
+                break;
+            case 5:
+                organizarDecrescente();
+                break;
+            case 6:
+                excluir();
+                break;
             case 7:
-                printf("Lista de números:\n");
-                for(int i = 0; i < 5; i++){
-                    printf("Número %d: %d\n", i + 1, lista[i]);
-                }
-                sleep(3);
+                imprimir();
                 break;
             case 8:
-                cor();
+                alterarCor();
                 break;
             case 9:
                 printf("FINALIZANDO...\n");
