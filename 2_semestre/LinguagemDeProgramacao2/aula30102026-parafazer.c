@@ -4,6 +4,7 @@
     #include <unistd.h>
     #include <locale.h>
     #include <ctype.h>
+    #include <string.h>
 
     /*
     Principais códigos ANSI de cores para o terminal:
@@ -16,144 +17,158 @@
     - Ciano: \033[1;36m
     */
 
+    #define max 50
+
+    struct aluno {
+        int matricula;
+        char nomeAluno[max];
+        char curso[30];
+        char turno[20];
+    };
+
+    struct aluno tbAluno[max];
+    struct aluno a;
+
     int op1, op2, lista[5], iC = 0, iG = 0;
     _Bool found = false;
-    char cadNum;
+    char keepGoing;
 
     /*
-        Método utilizado para cadastrar os novos números na lista. Foi utilizado o do-while porque era necessário a realização da primeira iteração e só depois checar se o usuário ainda deseja cadastrar mais numeros. A quantidade total de itens é registrada em iG e caso essa quantidade seja maior ou igual a 5, o limite de cadastro é atingido, não permitindo inserir mais números.
-        Após inserir um número, o usuário deve responder se quer colocar outro respondendo com 's' ou 'n'.
+        Método utilizado para cadastrar novos alunos na lista. O 'if(iG < max)' é utilizado para garantir que o numero de alunos na lista não vai passar da quantidade máxima permitida na lista. 'a.matricula++' incrementa o numero da matricula a cada registro novo e o 'iG++' para incrementar o indice Geral da lista. Os 'scanf' e 'fgets' servem para ler as informações digitadas dentro da structure e o 'strcspn' é para substituir os '\n' que podem haver na resposta por '\0' que é a forma de indicar que ali é o fim da string.
     */
     void cadastrar(){
-        do{
-            system("cls");
-            printf("Cadastre o %dº número: ", iG + 1);
-            scanf("%d", &lista[iG]);
+        system("cls");
+
+        if(iG < max){
+            a.matricula++;
+            printf("Matricula do Aluno: %d\n", a.matricula);
+            printf("Nome do Aluno: ");
+            getchar();
+            fgets(a.nomeAluno, sizeof(a.nomeAluno), stdin);
+            a.nomeAluno[strcspn(a.nomeAluno, "\n")] = '\0';
+            printf("Curso do Aluno: ");
+            getchar();
+            fgets(a.curso, sizeof(a.curso), stdin);
+            a.curso[strcspn(a.curso, "\n")] = '\0';
+            printf("Turno do Aluno: ");
+            scanf("%s", a.turno);
+            tbAluno[iG] = a;
             iG++;
-            if(iG >= 5){
-                printf("Limite de cadastro atingido!\n");
-                sleep(2);
-                break;
-            }
-            printf("Deseja cadastrar outro número? (S/N): ");
-            scanf(" %c", &cadNum);
-        }while(iG < 5 && tolower(cadNum) == 's');
+        } else {
+            printf("Tabela cheia!\n");
+            sleep(3);
+        }
     }
 
     /*
-        Método para consultar um número da lista que foi preenchida pelo usuário. op2 é a variável que armazena o valor a ser consultado e found é uma variável global que indica se o número consultado existe na lista ou não (true ou false). A busca roda utilizando um for e caso encontre o número, o iC (que é o indice de busca) guarda o indice da lista do número procurado. Nesse método colocamos como parâmetro a lista de números que deve ser buscada o valor desejado.
+        Método para consultar um número de matrícula de um aluno. 'iC' é a variavel utilizada para percorrer todos os valores da lista para comparar se algum é igual ao valor que deve ser consultado. Caso nessa varredura seja encontrando um valor igual ao pesquisado o método retorna 'TRUE' e caso não, retorna 'FALSE'. O tratamento é feito lá no switch-case.
     */
-    void consultar(int lista[]){
-        op2 = 0;
+    _Bool consultar(int mat){
+        iC = 0;
         found = false;
-
+        
         system("cls");
-        printf("Digite o número que deseja consultar: ");
-        scanf("%d", &op2);
-        for(int i = 0; i < iG; i++){
-            if(lista[i] == op2){
+        while((iC < iG) && (found == false)){
+            if(tbAluno[iC].matricula == mat){
                 found = true;
-                printf("Número encontrado na posição %d!\n", i + 1);
-                iC = i;
-                break;
+            }else{
+                iC++;
             }
         }
-        if(!found){
-            printf("Número não encontrado!\n");
-        }
-        sleep(2);
+
+        return found;       
     }
 
     /*
         Este é o método de alterar um valor da lista. Dentro dele rodamos o método consulta, a fim de localizar o número que se deseja alterar, caso 'found' seja true, o número foi encontrado e então é pedido o valor do novo número. Caso não exista, acontece um print na tela informando que o número não foi encontrado. Nesse método colocamos como parâmetro a lista de números que deve ser buscada o valor desejado.
     */
-    void alterar(int lista[]){
-        consultar(lista);
+    // void alterar(int lista[]){
+    //     consultar(lista);
 
-        if (found == true){
-            printf("Digite o novo número: ");
-            scanf("%d", &lista[iC]);
-            printf("Número alterado com sucesso!");
-        } else {
-            printf("Número não encontrado!\n");
-        }
+    //     if (found == true){
+    //         printf("Digite o novo número: ");
+    //         scanf("%d", &lista[iC]);
+    //         printf("Número alterado com sucesso!");
+    //     } else {
+    //         printf("Número não encontrado!\n");
+    //     }
 
-        sleep(2);
-    }
+    //     sleep(2);
+    // }
     
     /*
         Método de impressão na tela. Ao rodar esse método todos os itens que estão na lista são mostrados na tela. Foi utilizado um for para isso.
     */
-    void imprimir(){
-        printf("Lista de números:\n");
+    // void imprimir(){
+    //     printf("Lista de números:\n");
         
-        for(int i = 0; i < iG; i++){
-            printf("Número %d: %d\n", i + 1, lista[i]);
-        }
+    //     for(int i = 0; i < iG; i++){
+    //         printf("Número %d: %d\n", i + 1, lista[i]);
+    //     }
 
-        sleep(3);
-    }
+    //     sleep(3);
+    // }
 
     /*
         Método utilizado para organizar a lista em ordem crescente. Aqui foi utilizado uma variável chamada aux para armazenar o primeiro valor que gostaria de trocar de posição sem perdê-lo. Foi utilizado 2 estruturas de for para servir como ponteiros que indicam a posição dos itens que deverão ser trocados.
     */
-    void organizarCrescente(){
-        int aux;
-        system("cls");
+    // void organizarCrescente(){
+    //     int aux;
+    //     system("cls");
 
-        for(int i = 0; i < iG; i++){
-            for(int j = i + 1; j < iG; j++){
-                if(lista[i] > lista[j]){
-                    aux = lista[i];
-                    lista[i] = lista[j];
-                    lista[j] = aux;
-                }
-            }
-        }
+    //     for(int i = 0; i < iG; i++){
+    //         for(int j = i + 1; j < iG; j++){
+    //             if(lista[i] > lista[j]){
+    //                 aux = lista[i];
+    //                 lista[i] = lista[j];
+    //                 lista[j] = aux;
+    //             }
+    //         }
+    //     }
 
-        imprimir();
-        sleep(2);
-    }
+    //     imprimir();
+    //     sleep(2);
+    // }
 
     /*
         Método utilizado para organizar a lista em ordem decrescente. Aqui também foi utilizado uma variável chamada aux para armazenar o primeiro valor que gostaria de trocar de posição sem perdê-lo. Foi utilizado 2 estruturas de for para servir como ponteiros que indicam a posição dos itens que deverão ser trocados.
     */
-    void organizarDecrescente(){
-        int aux;
-        system("cls");
+    // void organizarDecrescente(){
+    //     int aux;
+    //     system("cls");
 
-        for (int i = 0; i < iG; i++){
-            for (int j = i + 1; j < iG; j++){
-                if (lista[i] < lista[j]){
-                    aux = lista[i];
-                    lista[i] = lista[j];
-                    lista[j] = aux;
-                }
-            }
-        }
+    //     for (int i = 0; i < iG; i++){
+    //         for (int j = i + 1; j < iG; j++){
+    //             if (lista[i] < lista[j]){
+    //                 aux = lista[i];
+    //                 lista[i] = lista[j];
+    //                 lista[j] = aux;
+    //             }
+    //         }
+    //     }
 
-        imprimir();
-        sleep(2);
-    }
+    //     imprimir();
+    //     sleep(2);
+    // }
 
     /*
         Método utilizado para excluir algum item da lista. Na verdade, não existe uma exclusão real, o código faz uma sobreposição do valor que não é mais desejado "puxando" toda a lista para a frente. Nesse método também utilizamos o parâmetro da lista para rodar o método de consulta dentro do excluir.
     */
-    void excluir(int lista[]){
-        consultar(lista);
+    // void excluir(int lista[]){
+    //     consultar(lista);
 
-        if (found == true){
-            iG--;
-            for (int i = iC; i < iG; i++){
-                lista[i] = lista[i + 1];
-            }
-            printf("Número excluído com sucesso!\n");
-        } else {
-            printf("Número não encontrado!\n");
-        }
+    //     if (found == true){
+    //         iG--;
+    //         for (int i = iC; i < iG; i++){
+    //             lista[i] = lista[i + 1];
+    //         }
+    //         printf("Número excluído com sucesso!\n");
+    //     } else {
+    //         printf("Número não encontrado!\n");
+    //     }
 
-        sleep(2);
-    }
+    //     sleep(2);
+    // }
 
     /*
         Método utilizado para modificar a cor do texto que será mostrado na tela. Foram disponibilizadas 7 cores e por esse método, utilizamos um switch que é determinado pelo usuário quando digita o valor que será armazenado em op2.
@@ -232,25 +247,39 @@
             system("cls");
             switch(op1){
                 case 1:
-                    cadastrar();
+                    do{
+                        cadastrar();
+                        printf("Deseja continuar cadastrando [s/n]? ");
+                        scanf(" %c", &keepGoing);
+                    } while ( tolower(keepGoing) == 's');
                     break;
                 case 2:
-                    consultar(lista);
+                    op2 = 0;
+                    printf("Digite a matricula do aluno que deseja consultar: ");
+                    scanf("%d", &op2);
+                    if(consultar(op2)){
+                        printf("Nome do Aluno: %s\n", tbAluno[iC].nomeAluno);
+                        printf("Curso do Aluno: %s\n", tbAluno[iC].nomeAluno);
+                        printf("Turno do Aluno: %s\n", tbAluno[iC].nomeAluno);
+                    }else{
+                        printf("Aluno não encontrado!");
+                    }
+                    sleep(3);
                     break;
                 case 3:
-                    alterar(lista);
+                    // alterar(lista);
                     break;
                 case 4:
-                    organizarCrescente();
+                    // organizarCrescente();
                     break;
                 case 5:
-                    organizarDecrescente();
+                    // organizarDecrescente();
                     break;
                 case 6:
-                    excluir(lista);
+                    // excluir(lista);
                     break;
                 case 7:
-                    imprimir();
+                    // imprimir();
                     break;
                 case 8:
                     alterarCor();
