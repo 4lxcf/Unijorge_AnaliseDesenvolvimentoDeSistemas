@@ -283,6 +283,7 @@ void main()
             sleep(3);
             break;
         case 4:
+          if (idg>0){
             printf("Escolha como deseja organizar:\n");
             printf("1 - Ordenar por Matricula\n");
             printf("2 - Ordenar por Nome de Aluno\n");
@@ -291,7 +292,11 @@ void main()
             printf("Lista organizada com sucesso!\n");
             sleep(3);
             break;
+          }else{
+            printf("Não existe registro na tabela!\n");
+          }
         case 5:
+          if (idg>0){
             printf("Escolha como deseja organizar:\n");
             printf("1 - Ordenar por Matricula\n");
             printf("2 - Ordenar por Nome de Aluno\n");
@@ -300,6 +305,9 @@ void main()
             printf("Lista organizada com sucesso!\n");
             sleep(3);
             break;
+          }else{
+            printf("Não existe registro na tabela!\n");
+          }
         case 6:
             if(idg>0){
                 printf("Digite a matrícula que deseja excluir: ");
