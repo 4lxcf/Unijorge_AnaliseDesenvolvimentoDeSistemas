@@ -284,12 +284,19 @@ void main()
             break;
         case 4:
           if (idg > 1){
-            printf("Escolha como deseja organizar:\n");
-            printf("1 - Ordenar por Matricula\n");
-            printf("2 - Ordenar por Nome de Aluno\n");
-            scanf("%d", &op);
-            orgcrescente(op);
-            printf("Lista organizada com sucesso!\n");
+              do{
+                  system("clear");
+                  printf("Escolha como deseja organizar:\n");
+                  printf("1 - Ordenar por Matricula\n");
+                  printf("2 - Ordenar por Nome de Aluno\n");
+                  scanf("%d", &op);
+                  if((op < 1) || (op > 2)){
+                      printf("Opção inválida!\n");
+                      sleep(2);
+                  }
+              }while((op < 1) || (op > 2));
+              orgcrescente(op);
+              printf("Lista organizada com sucesso!\n");
           }else if (idg == 0){
             printf("Não existe registro na tabela!\n");
           }else{
@@ -299,13 +306,20 @@ void main()
           break;
         case 5:
           if (idg > 1){
-            printf("Escolha como deseja organizar:\n");
-            printf("1 - Ordenar por Matricula\n");
-            printf("2 - Ordenar por Nome de Aluno\n");
-            scanf("%d", &op);
-            orgdecrescente(op);
-            printf("Lista organizada com sucesso!\n");
-
+              do{
+                  system("clear");
+                  printf("Escolha como deseja organizar:\n");
+                  printf("1 - Ordenar por Matricula\n");
+                  printf("2 - Ordenar por Nome de Aluno\n");
+                  scanf("%d", &op);
+                  if((op < 1) || (op > 2)){
+                      printf("Opção inválida!\n");
+                      sleep(2);
+                  }
+                  
+              }while((op < 1) || (op > 2));
+              orgdecrescente(op);
+              printf("Lista organizada com sucesso!\n");
           }else if (idg == 0){
             printf("Não existe registro na tabela!\n");
           }else{
