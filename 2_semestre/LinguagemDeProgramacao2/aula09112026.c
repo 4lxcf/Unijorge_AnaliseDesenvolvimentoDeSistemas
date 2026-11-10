@@ -283,31 +283,36 @@ void main()
             sleep(3);
             break;
         case 4:
-          if (idg>0){
+          if (idg > 1){
             printf("Escolha como deseja organizar:\n");
             printf("1 - Ordenar por Matricula\n");
             printf("2 - Ordenar por Nome de Aluno\n");
             scanf("%d", &op);
             orgcrescente(op);
             printf("Lista organizada com sucesso!\n");
-            sleep(3);
-            break;
-          }else{
+          }else if (idg == 0){
             printf("Não existe registro na tabela!\n");
+          }else{
+            printf("Adicione mais cadastros!\n");
           }
+          sleep(3);
+          break;
         case 5:
-          if (idg>0){
+          if (idg > 1){
             printf("Escolha como deseja organizar:\n");
             printf("1 - Ordenar por Matricula\n");
             printf("2 - Ordenar por Nome de Aluno\n");
             scanf("%d", &op);
             orgdecrescente(op);
             printf("Lista organizada com sucesso!\n");
-            sleep(3);
-            break;
-          }else{
+
+          }else if (idg == 0){
             printf("Não existe registro na tabela!\n");
+          }else{
+            printf("Adicione mais cadastros!\n");
           }
+          sleep(3);
+          break;
         case 6:
             if(idg>0){
                 printf("Digite a matrícula que deseja excluir: ");
